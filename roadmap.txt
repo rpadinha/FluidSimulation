@@ -1,0 +1,29 @@
+The Sandbox: Basic kinematics, gravity, and boundary collisions.
+
+The Smoothing Kernel: Implementing the math that gives particles a radius of influence.
+
+Density: Calculating how crowded the space is around any given particle.
+
+Pressure: Converting that density into a repulsive force (the core of fluid behavior).
+
+Viscosity & Optimization: Adding friction and building the spatial hash grid so your CPU doesn't melt.
+
+Visuals Implementing like red blue for vel and later we will see what we wanna really do with it
+
+
+const float WIDTH = 1280.0f;
+const float HEIGHT = 720.0f;
+
+const int NUM_PARTICLES = 500;
+
+const float GRAVITY = 0.0f;
+const float PI = 3.14159265f;
+
+const float PARTICLE_RADIUS = 5.0f;
+const float SMOOTHING_RADIUS = 15.0f;
+
+const float COLLISION_DAMP = 0.9f;
+
+const float TARGET_DENSITY = 0.002f; // How spaced out the fluid naturally wants to be
+const float PRESSURE_MULTIPLIER = 100000.0f; // How agressively it fights being squished
+const float VISCOSITY_STRENGTH = 200.f;
