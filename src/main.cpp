@@ -1,5 +1,6 @@
 #include <vector>
 #include <cmath>
+#include <cstdlib>
 #include <SFML/Graphics.hpp>
 
 struct Particle {
@@ -10,20 +11,22 @@ struct Particle {
 
 const float WIDTH = 1280.0f;
 const float HEIGHT = 720.0f;
-
+ 
 const int NUM_PARTICLES = 500;
 
 const float GRAVITY = 0.0f;
 const float PI = 3.14159265f;
 
 const float PARTICLE_RADIUS = 5.0f;
-const float SMOOTHING_RADIUS = 15.0f;
+const float SMOOTHING_RADIUS = 20.0f;
 
-const float COLLISION_DAMP = 0.9f;
+const float COLLISION_DAMP = 0.1f;
 
-const float TARGET_DENSITY = 0.002f; // How spaced out the fluid naturally wants to be
-const float PRESSURE_MULTIPLIER = 100000.0f; // How agressively it fights being squished
-const float VISCOSITY_STRENGTH = 200.f;
+const float TARGET_DENSITY = 0.0001f; // How spaced out the fluid naturally wants to be
+const float PRESSURE_MULTIPLIER = 70000.0f; // How agressively it fights being squished
+const float VISCOSITY_STRENGTH = 1.0f;
+
+const float MAX_SPEED = 100.0f;
 
 float length(const sf::Vector2f& vector) {
     return sqrt(vector.x * vector.x + vector.y * vector.y);
@@ -70,8 +73,11 @@ int main() {
 
         int y = i / cols;
 
-        float posX = startX + (x * spacing);
-        float posY = startY + (y * spacing);
+        float jitterX = ((rand() % 100) / 100.0f) - 2.0f;
+        float jitterY = ((rand() % 100) / 100.0f) - 2.0f;
+        
+        float posX = startX + (x * spacing) + jitterX;
+        float posY = startY + (y * spacing) + jitterY;
 
         Particle p;
         p.position.x = posX; p.position.y = posY;
@@ -165,11 +171,34 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                sf::Vector2f mouseTarget(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+                for (auto& p : particles) {
+                    sf::Vector2f dir = mouseTarget - p.position;
+                    float dist = length(dir);
+
+                    if (dist < 150.0f && dist > 0.001f) {
+                        sf::Vector2f  pullForce = (dir / dist) * 200.0f;
+                        p.velocity += pullForce * dt;
+                    }
+                }
+            }
         }
 
         window.clear(sf::Color(203, 195, 227)); // purple background just for fun i like it
 
         for (const auto& p : particles) {
+
+            float speed = length(p.velocity);
+            float t = std::min(speed / MAX_SPEED, 1.0f);
+
+            sf::Uint8 r, g, b;
+            r = static_cast<sf::Uint8>(t * 255.0f);
+            g = 0;
+            b = static_cast<sf::Uint8>((1.0f - t) * 255.0f);
+
+            render_shape.setFillColor(sf::Color(r, g, b));
             render_shape.setPosition(p.position.x, p.position.y);
             
             window.draw(render_shape);

@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/rupixe/Projects/FluidSimulation/build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

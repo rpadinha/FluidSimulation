@@ -1,3 +1,0 @@
-/home/rupixe/Projects/FluidSimulation/build/CMakeFiles/fluid_sim.dir
-/home/rupixe/Projects/FluidSimulation/build/CMakeFiles/edit_cache.dir
-/home/rupixe/Projects/FluidSimulation/build/CMakeFiles/rebuild_cache.dir
