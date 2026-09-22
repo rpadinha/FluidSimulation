@@ -1,7 +1,7 @@
 # SPH Fluid Simulation
 A 2D fluid simulation built from scratch using C++ and SFML, based on the Smoothed-Particle Hydrodynamics (SPH) method.
 
-<img width="1280" height="720" alt="Kooha-2026-09-21-23-34-04" src="https://github.com/user-attachments/assets/b6fa22e0-18ac-4d3a-843f-69df3bd75b66" />
+<img width="512" height="288" alt="fluid_sim_v1_finished" src="https://github.com/user-attachments/assets/382d0800-48db-489b-9258-7d767ac66311" />
 
 *Demo of the fluid dynamics on action.*
 
